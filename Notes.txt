@@ -1,0 +1,23 @@
+General Notes
+- Should be responsive and mobile friendly! 
+- Should be SEO optimized!
+
+Ideas for site
+- Create a cool landing page with some 3D elements
+- Create an interactive resume, maybe a 3D resume
+- Create an About page with my experience highlights, fun interests/hobbies
+- Create a Projects page
+- Link my LinkedIn and GitHub accounts
+- Have a contact section with my email and LinkedIn
+- Have a photo of me, but with cool AI generated effects/filters
+
+Things to research:
+- helmet-async
+- Vite SSR
+- tailwindcss
+
+Deployment/Hosting
+- look into writing scripts to deploy app to AWS 
+- could create S3 bucket and set up CloudFront, OR
+- could use AWS Amplify for simpler CI/CD. Connect your GitHub repo, 
+   and Amplify will automatically build and deploy your app.

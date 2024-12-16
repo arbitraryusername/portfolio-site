@@ -1,0 +1,4 @@
+I am building a mobile-friendly web app for a full stack web developer portfolio.
+The app dependencies are typescript 5.6, vite 6, react 18.3, react-dom 18.3, 
+react-redux 9.2, reduxjs/toolkit 2.5, mui/material 6.2, emotion/react 11.14, 
+react-three/fiber 9.120, and react-three/drei 8.17.
