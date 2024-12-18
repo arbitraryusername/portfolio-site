@@ -4,14 +4,19 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import LandingPage from './components/LandingPage';
 import Navbar from './components/Navbar';
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark', // can be 'light' or 'dark'
-  },
-});
+import AboutPage from './components/AboutPage';
 
 function App() {
+  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: { mode },
+      }),
+    [mode],
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -34,9 +39,12 @@ function App() {
               p: 2,
             }}
           >
+            <button onClick={() => setMode((prev) => (prev === 'light' ? 'dark' : 'light'))}>
+              Toggle Theme
+            </button>
             <Routes>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/about" element={<div>About Page</div>} />
+              <Route path="/about" element={<AboutPage />} />
               <Route path="/app-info" element={<div>App Info Page</div>} />
               <Route path="/projects" element={<div>Projects Page</div>} />
             </Routes>

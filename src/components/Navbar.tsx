@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: '#333' }}>
+    <AppBar position="fixed">
       <Toolbar>
         {/* Logo or Name */}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
