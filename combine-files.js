@@ -18,8 +18,6 @@ const ALLOWED_EXTENSIONS = [
     '.css',  // Stylesheets
     '.scss', // Sass/SCSS stylesheets
     '.json', // JSON files (configurations)
-    '.md',   // Markdown files (documentation, READMEs)
-    '.env',  // Environment variable files
     '.yml',  // YAML files (e.g., CI/CD configs)
     '.yaml', // Alternative YAML extension
 ];
@@ -37,8 +35,9 @@ const EXCLUDED_DIRS = [
 const EXCLUDED_FILES = [
     'combine-files.js',    // This script
     'combined-output.txt', // Output of this script
+    'open-ai-api.js',      // Helper class
     'package-lock.json',   // NPM lock file
-    'eslint.config.js'     // ESLint configuration
+    'eslint.config.js',    // ESLint configuration
 ];
 
 function getAllAllowedFiles(directory) {
@@ -77,8 +76,10 @@ function combineFilesIntoTxt(startDir, outputFilePath) {
   for (const filePath of allFiles) {
     try {
       const fileContents = fs.readFileSync(filePath, 'utf-8');
+      const relativePath = path.relative(__dirname, filePath); // Get the relative path
+
       // Write delimiter
-      writeStream.write(`@@ ${filePath} @@\n`);
+      writeStream.write(`~${relativePath}\n`);
       // Write file content
       writeStream.write(fileContents + '\n');
     } catch (error) {

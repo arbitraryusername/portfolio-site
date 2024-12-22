@@ -129,5 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# custom local files
+# craig's specified files
 combined-output.txt
+.env
