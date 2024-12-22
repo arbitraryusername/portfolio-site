@@ -4,6 +4,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getCondensedDependencyInfo } from './condense-dependency-info.js';
 
 // Reconstruct __filename and __dirname in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -33,11 +34,18 @@ const EXCLUDED_DIRS = [
 ];
 
 const EXCLUDED_FILES = [
-    'combine-files.js',    // This script
+    'combine-files.js',    // External script
     'combined-output.txt', // Output of this script
-    'open-ai-api.js',      // Helper class
-    'package-lock.json',   // NPM lock file
+    'open-ai-api.js',      // External script
+    'condense-dependency-info.js', // External script
+    'package-lock.json',   // NPM lock file (really huge, must exclude this!)
     'eslint.config.js',    // ESLint configuration
+    'tsconfig.json',       // Manages references to sub-tsconfig files
+    'vite-env.d.ts',       // Vite-specific TypeScript references
+    'vite.config.ts',      // For now this is redundant, sometimes it might be important to include
+    'package.json',        // NOTE: included in condense-dependencies-info.js, so don't include
+    'tsconfig.node.json',  // NOTE: included in condense-dependencies-info.js, so don't include
+    'tsconfig.app.json',   // NOTE: included in condense-dependencies-info.js, so don't include
 ];
 
 function getAllAllowedFiles(directory) {
@@ -73,15 +81,19 @@ function combineFilesIntoTxt(startDir, outputFilePath) {
   const allFiles = getAllAllowedFiles(startDir);
   const writeStream = fs.createWriteStream(outputFilePath, { flags: 'w' });
 
+  const dependencyInfo = getCondensedDependencyInfo();
+  writeStream.write(`~dependency-info.txt\n`);
+  writeStream.write(`${dependencyInfo}\n`);
+
   for (const filePath of allFiles) {
     try {
       const fileContents = fs.readFileSync(filePath, 'utf-8');
       const relativePath = path.relative(__dirname, filePath); // Get the relative path
 
       // Write delimiter
-      writeStream.write(`~${relativePath}\n`);
+      writeStream.write(`\n~${relativePath}`);
       // Write file content
-      writeStream.write(fileContents + '\n');
+      writeStream.write(fileContents);
     } catch (error) {
       console.error(`Error reading file: ${filePath}\n`, error);
     }

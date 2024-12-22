@@ -9,10 +9,18 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Load the API key from environment variables
 });
 
+// NOTES: 
+// 1 token is approximately 4 characters
+// a cached prompt response automatically costs 50% less for the text input, which must be at least 1024
+// get token count with this handy tool: https://platform.openai.com/tokenizer
+const models = [
+  'gpt-4o-mini', // $0.150/1M input tokens, $0.60/1M output tokens
+];
+
 async function generateCode(prompt) {
   try {
     const chatCompletion = await client.chat.completions.create({
-      model: 'text-embedding-3-large', // or 'gpt-4' if you have access
+      model: models[0],
       messages: [{ role: 'user', content: prompt }],
     });
 
